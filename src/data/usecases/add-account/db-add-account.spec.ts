@@ -22,9 +22,7 @@ describe('DbAddAccount Usecase', () => {
       async add (account: AddAccountModel): Promise<AccountModel> {
         const fakeAccount = {
           id: 'valid_id',
-          name: 'valid_name',
-          email: 'valid_email',
-          password: 'hashed_password'
+          ...account
         }
         return new Promise(resolve => resolve(fakeAccount))
       }
