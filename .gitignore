@@ -4,3 +4,4 @@ coverage
 /globalConfig.json
 /.eslintignore
 globalConfig.json
+src/main/config/env.ts
