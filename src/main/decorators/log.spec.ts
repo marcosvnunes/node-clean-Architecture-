@@ -2,7 +2,7 @@ import { Controller, HttpRequest, HttpResponse } from '../../presentation/protoc
 import { LogErrorControllerDecorator } from './log'
 
 describe('LogErrorController Decorator', () => {
-  test('sholl call controller handle with httpRequest ', async () => {
+  const makesut = (): any => {
     class ControllerStub implements Controller {
       async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
         const httpResponse: HttpResponse = {
@@ -16,6 +16,14 @@ describe('LogErrorController Decorator', () => {
     }
     const controllerstub = new ControllerStub()
     const sut = new LogErrorControllerDecorator(controllerstub)
+    return {
+      sut,
+      controllerstub
+    }
+  }
+
+  test('sholl call controller handle with httpRequest ', async () => {
+    const { sut, controllerstub } = makesut()
     const spyHandle = jest.spyOn(controllerstub, 'handle')
 
     const httpRequest: HttpRequest = {
