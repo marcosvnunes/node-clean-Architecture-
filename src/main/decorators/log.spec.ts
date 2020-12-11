@@ -7,9 +7,7 @@ describe('LogErrorController Decorator', () => {
       async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
         const httpResponse: HttpResponse = {
           statusCode: 200,
-          body: {
-            name: 'Marcos'
-          }
+          body: 'any_body'
         }
         return new Promise(resolve => resolve(httpResponse))
       }
@@ -36,9 +34,22 @@ describe('LogErrorController Decorator', () => {
     const spyHandle = jest.spyOn(controllerStub, 'handle')
 
     const httpRequest: HttpRequest = {
-      body: { name: 'rodrigo' }
+      body: 'any_body'
     }
     await sut.handle(httpRequest)
     expect(spyHandle).toHaveBeenCalledWith(httpRequest)
+  })
+
+  test('should return the same response of the controller', async () => {
+    const { sut } = makesut()
+
+    const httpRequest: HttpRequest = {
+      body: 'any_body'
+    }
+    const response = await sut.handle(httpRequest)
+    expect(response).toEqual({
+      statusCode: 200,
+      body: 'any_body'
+    })
   })
 })
