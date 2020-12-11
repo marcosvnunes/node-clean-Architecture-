@@ -3,7 +3,7 @@ import { serverError } from '../../presentation/helpers/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '../../presentation/protocols'
 import { LogErrorControllerDecorator } from './log'
 
-describe('LogErrorController Decorator', () => {
+describe('Log Error Controller Decorator', () => {
   const makeFakehttpRequest = (): HttpRequest => {
     return {
       body: 'any_body'
