@@ -162,7 +162,9 @@ describe('SingUp Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    const fakeError = new Error()
+    fakeError.stack = 'any_stack'
+    expect(httpResponse.body).toEqual(new ServerError(fakeError.stack))
   })
 
   test('should call addAccout with correct values', async () => {
@@ -198,8 +200,11 @@ describe('SingUp Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
+    const fakeError = new Error()
+    fakeError.stack = 'any_stack'
+
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError(fakeError.stack))
   })
 
   test('should return 200 if valid date is provided', async () => {
