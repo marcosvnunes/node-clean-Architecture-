@@ -17,18 +17,23 @@ describe('LogErrorController Decorator', () => {
     return new ControllerStub()
   }
 
-  const makesut = (): any => {
-    const controllerstub = makeControllerStub()
-    const sut = new LogErrorControllerDecorator(controllerstub)
+  interface SutTypes {
+    sut: LogErrorControllerDecorator
+    controllerStub: Controller
+  }
+
+  const makesut = (): SutTypes => {
+    const controllerStub = makeControllerStub()
+    const sut = new LogErrorControllerDecorator(controllerStub)
     return {
       sut,
-      controllerstub
+      controllerStub
     }
   }
 
   test('sholl call controller handle with httpRequest ', async () => {
-    const { sut, controllerstub } = makesut()
-    const spyHandle = jest.spyOn(controllerstub, 'handle')
+    const { sut, controllerStub } = makesut()
+    const spyHandle = jest.spyOn(controllerStub, 'handle')
 
     const httpRequest: HttpRequest = {
       body: { name: 'rodrigo' }
