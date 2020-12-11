@@ -2,7 +2,7 @@ import { Controller, HttpRequest, HttpResponse } from '../../presentation/protoc
 import { LogErrorControllerDecorator } from './log'
 
 describe('LogErrorController Decorator', () => {
-  const makesut = (): any => {
+  const makeControllerStub = (): Controller => {
     class ControllerStub implements Controller {
       async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
         const httpResponse: HttpResponse = {
@@ -14,7 +14,11 @@ describe('LogErrorController Decorator', () => {
         return new Promise(resolve => resolve(httpResponse))
       }
     }
-    const controllerstub = new ControllerStub()
+    return new ControllerStub()
+  }
+
+  const makesut = (): any => {
+    const controllerstub = makeControllerStub()
     const sut = new LogErrorControllerDecorator(controllerstub)
     return {
       sut,
