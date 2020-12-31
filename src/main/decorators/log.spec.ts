@@ -58,7 +58,7 @@ describe('Log Error Controller Decorator', () => {
     }
   }
 
-  test('sholl call controller handle with httpRequest ', async () => {
+  test('should call controller handle with httpRequest ', async () => {
     const { sut, controllerStub } = makesut()
     const spyHandle = jest.spyOn(controllerStub, 'handle')
     await sut.handle(makeFakehttpRequest())
