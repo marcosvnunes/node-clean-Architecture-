@@ -15,4 +15,16 @@ describe('Validation Composite', () => {
     const error = sut.validate({ any_field: 'any_value' })
     expect(error).toEqual(new InvalidParamError('field'))
   })
+
+  test('should no return on success', () => {
+    class ValidationStub implements Validation {
+      validate (input: any): Error {
+        return null
+      }
+    }
+    const validationStub = new ValidationStub()
+    const sut = new ValidationComposite([validationStub])
+    const error = sut.validate({ any_field: 'any_value' })
+    expect(error).toBeFalsy()
+  })
 })
