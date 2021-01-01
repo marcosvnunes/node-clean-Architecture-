@@ -16,6 +16,20 @@ describe('Validation Composite', () => {
     expect(error).toEqual(new InvalidParamError('field'))
   })
 
+  test('should return an Error if any validations fails', () => {
+    class ValidationStub implements Validation {
+      validate (input: any): Error {
+        return null
+      }
+    }
+    const validationStub = new ValidationStub()
+    const validationStub2 = new ValidationStub()
+    jest.spyOn(validationStub2, 'validate').mockReturnValueOnce(new InvalidParamError('field'))
+    const sut = new ValidationComposite([validationStub, validationStub2])
+    const error = sut.validate({ any_field: 'any_value' })
+    expect(error).toEqual(new InvalidParamError('field'))
+  })
+
   test('should no return on success', () => {
     class ValidationStub implements Validation {
       validate (input: any): Error {
