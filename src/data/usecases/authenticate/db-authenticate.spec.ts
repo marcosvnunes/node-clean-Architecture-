@@ -112,4 +112,10 @@ describe('DB authenticate Usecase', () => {
     await sut.auth(makeFakeAuthenticate())
     expect(generateSpy).toHaveBeenCalledWith('any_id')
   })
+
+  test('should return accessToken valid on success', async () => {
+    const { sut } = makeSut()
+    const accessToken = await sut.auth(makeFakeAuthenticate())
+    expect(accessToken).toBe('any_token')
+  })
 })
