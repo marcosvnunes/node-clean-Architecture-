@@ -138,16 +138,23 @@ describe('DB authenticate Usecase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('should return an accessToken valid on success', async () => {
-    const { sut } = makeSut()
-    const accessToken = await sut.auth(makeFakeAuthenticate())
-    expect(accessToken).toBe('any_token')
-  })
-
   test('should call UpdateAccessTokenRepository with correct values', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
     const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'update')
     await sut.auth(makeFakeAuthenticate())
     expect(updateSpy).toHaveBeenCalledWith('any_id', 'any_token')
+  })
+
+  test('should throw if UpdateAccessTokenRepository throws', async () => {
+    const { sut, updateAccessTokenRepositoryStub } = makeSut()
+    jest.spyOn(updateAccessTokenRepositoryStub, 'update').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const promise = sut.auth(makeFakeAuthenticate())
+    await expect(promise).rejects.toThrow()
+  })
+
+  test('should return an accessToken valid on success', async () => {
+    const { sut } = makeSut()
+    const accessToken = await sut.auth(makeFakeAuthenticate())
+    expect(accessToken).toBe('any_token')
   })
 })
