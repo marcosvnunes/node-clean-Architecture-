@@ -64,8 +64,11 @@ describe('Account Mongo Repository', () => {
     const sut = makeSut()
     const result = await accountCollection.insertOne(makeFakeAccount())
 
-    await sut.updateAccessToken(result.ops[0].id, 'any_token')
-    const account = await accountCollection.findOne({ email: 'any_email@mail.com' })
+    let account = await accountCollection.findOne({ _id: result.ops[0]._id })
+    expect(account.accessToken).toBeFalsy()
+
+    await sut.updateAccessToken(account._id, 'any_token')
+    account = await accountCollection.findOne({ _id: result.ops[0]._id })
     expect(account.accessToken).toBe('any_token')
   })
 })
