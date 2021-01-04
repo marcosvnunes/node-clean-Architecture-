@@ -25,12 +25,12 @@ export class DbAuthenticate implements Authenticate {
   }
 
   async auth (authenticate: AuthenticateModel): Promise<string> {
-    const account = await this.loadAccountByEmailRepository.load(authenticate.email)
+    const account = await this.loadAccountByEmailRepository.loadByEmail(authenticate.email)
     if (account) {
       const isValid = await this.hashComparer.compare(authenticate.password, account.password)
       if (isValid) {
         const accessToken = await this.encrypter.encrypt(account.id)
-        await this.updateAccessTokenRepository.update(account.id, accessToken)
+        await this.updateAccessTokenRepository.updateAccessToekn(account.id, accessToken)
         return accessToken
       }
     }
