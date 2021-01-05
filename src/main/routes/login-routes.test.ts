@@ -48,5 +48,15 @@ describe('Login Routes', () => {
         })
         .expect(200)
     })
+
+    test('should return 401 on fails', async () => {
+      await request(app)
+        .post('/api/login')
+        .send({
+          email: 'marcosnunescomercial@gmail.com',
+          password: '123'
+        })
+        .expect(401)
+    })
   })
 })
