@@ -3,4 +3,3 @@ dist
 coverage
 /.eslintignore
 globalConfig.json
-src/main/config/env.ts
