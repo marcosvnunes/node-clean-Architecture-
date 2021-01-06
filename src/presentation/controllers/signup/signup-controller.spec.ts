@@ -2,6 +2,7 @@ import { SignUpController } from './signup-controller'
 import { MissingParamError } from '../../erros'
 import { AccountModel, AddAccount, AddAccountModel, Validation, HttpRequest } from './signup-controller-protocols'
 import { badRequest, serverError, ok } from '../../helpers/http/http-helper'
+import { AuthenticateModel, Authenticate } from '../../../domain/usercases/authenticate'
 
 const makeFakeAccount = (): AccountModel => {
   return {
@@ -30,21 +31,33 @@ const makeValidation = (): Validation => {
   return new ValidationStub()
 }
 
+const makeAuthenticate = (): Authenticate => {
+  class AuthenticateStub implements Authenticate {
+    async auth (authenticate: AuthenticateModel): Promise<string> {
+      return new Promise(resolve => resolve('any_token'))
+    }
+  }
+  return new AuthenticateStub()
+}
+
 interface SutTypes{
   sut: SignUpController
   addAccountStub: AddAccount
   validationStub: Validation
+  authenticateStub: Authenticate
 }
 
 const makeSut = (): SutTypes => {
   const addAccountStub = makeAddAccount()
   const validationStub = makeValidation()
+  const authenticateStub = makeAuthenticate()
 
-  const sut = new SignUpController(addAccountStub, validationStub)
+  const sut = new SignUpController(addAccountStub, validationStub, authenticateStub)
   return {
     sut,
     addAccountStub,
-    validationStub
+    validationStub,
+    authenticateStub
   }
 }
 
@@ -106,5 +119,16 @@ describe('SingUp Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_param'))
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_param')))
+  })
+
+  test('should call authenticate with correct values', async () => {
+    const { sut, authenticateStub } = makeSut()
+    const httpRequest = makeFakeHttpRequest()
+    const authSpy = jest.spyOn(authenticateStub, 'auth')
+    await sut.handle(httpRequest)
+    expect(authSpy).toHaveBeenCalledWith({
+      email: 'valid_email@mail.com',
+      password: 'valid_password'
+    })
   })
 })
