@@ -1,8 +1,8 @@
-import { 
-  Hasher, 
-  AccountModel, 
-  AddAccountModel, 
-  AddAccountRepository, 
+import {
+  Hasher,
+  AccountModel,
+  AddAccountModel,
+  AddAccountRepository,
   LoadAccountByEmailRepository
 } from './db-add-account-protocols'
 import { DbAddAccount } from './db-add-account'
@@ -57,7 +57,7 @@ describe('DbAddAccount Usecase', () => {
     sut: DbAddAccount
     hasherStub: Hasher
     addAccountRepositoryStub: AddAccountRepository
-    loadAccountByEmailRepositoryStub : LoadAccountByEmailRepository
+    loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
   }
 
   const makeSut = (): SutTypes => {

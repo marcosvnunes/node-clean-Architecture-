@@ -4,3 +4,4 @@ coverage
 /.eslintignore
 globalConfig.json
 data
+!src/data
