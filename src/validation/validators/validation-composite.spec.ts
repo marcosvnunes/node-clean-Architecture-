@@ -1,5 +1,5 @@
-import { InvalidParamError } from '../../erros'
-import { Validation } from './validation'
+import { InvalidParamError } from '../../presentation/erros'
+import { Validation } from '../../presentation/protocols/validation'
 import { ValidationComposite } from './validation-composite'
 
 interface SutTypes {
