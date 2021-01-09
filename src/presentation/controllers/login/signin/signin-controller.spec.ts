@@ -1,8 +1,8 @@
-import { HttpRequest, Authenticate, Validation } from './login-controller-protocols'
-import { LoginController } from './login-controller'
-import { MissingParamError } from '../../erros'
-import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helper'
-import { AuthenticateModel } from '../../../domain/usercases/authenticate'
+import { HttpRequest, Authenticate, Validation } from './signin-controller-protocols'
+import { SignInController } from './signin-controller'
+import { MissingParamError } from '../../../erros'
+import { badRequest, ok, serverError, unauthorized } from '../../../helpers/http/http-helper'
+import { AuthenticateModel } from '../../../../domain/usercases/authenticate'
 
 const makeAuthenticate = (): Authenticate => {
   class AuthenticateStub implements Authenticate {
@@ -34,7 +34,7 @@ const makeFakeHttpRequest = (): HttpRequest => {
 const makeSut = (): any => {
   const authenticateStub = makeAuthenticate()
   const validationStub = makeValidation()
-  const sut = new LoginController(authenticateStub, validationStub)
+  const sut = new SignInController(authenticateStub, validationStub)
   return {
     sut,
     authenticateStub,
@@ -42,7 +42,7 @@ const makeSut = (): any => {
   }
 }
 
-describe('Login Controller', () => {
+describe('SignIn Controller', () => {
   test('should call authenticate with correct values', async () => {
     const { sut, authenticateStub } = makeSut()
     const httpRequest = makeFakeHttpRequest()

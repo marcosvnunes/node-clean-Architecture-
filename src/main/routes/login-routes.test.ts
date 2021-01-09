@@ -18,7 +18,7 @@ describe('Login Routes', () => {
   afterAll(async () => {
     await MongoHelper.disconnect()
   })
-  describe('Sign Post ', () => {
+  describe('SignUp Post ', () => {
     test('should return 200 on success', async () => {
       await request(app)
         .post('/api/signup')
@@ -32,7 +32,7 @@ describe('Login Routes', () => {
     })
   })
 
-  describe('login Post', () => {
+  describe('SignIn Post', () => {
     test('should return 200 on success', async () => {
       const password = await bcrypt.hash('123', 12)
       await accountCollection.insertOne({
@@ -41,7 +41,7 @@ describe('Login Routes', () => {
         password
       })
       await request(app)
-        .post('/api/login')
+        .post('/api/signin')
         .send({
           email: 'marcosnunescomercial@gmail.com',
           password: '123'
@@ -51,7 +51,7 @@ describe('Login Routes', () => {
 
     test('should return 401 on fails', async () => {
       await request(app)
-        .post('/api/login')
+        .post('/api/signin')
         .send({
           email: 'marcosnunescomercial@gmail.com',
           password: '123'
