@@ -11,18 +11,22 @@ const makeFakeRequest = ({
   }
 })
 
+const makeValidationSub = (): Validation => {
+  class ValidationStub implements Validation {
+    validate (input: any): Error {
+      return null
+    }
+  }
+  return new ValidationStub()
+}
+
 interface SutTypes {
   sut: SurveyController
   validationStub: Validation
 }
 
 const makeSut = (): SutTypes => {
-  class ValidationStub implements Validation {
-    validate (input: any): Error {
-      return null
-    }
-  }
-  const validationStub = new ValidationStub()
+  const validationStub = makeValidationSub()
   const sut = new SurveyController(validationStub)
   return {
     sut,
