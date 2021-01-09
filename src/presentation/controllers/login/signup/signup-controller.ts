@@ -3,11 +3,12 @@ import {
   HttpResponse,
   Controller,
   AddAccount,
-  Validation
+  Validation,
+  Authenticate
 } from './signup-controller-protocols'
 
 import { badRequest, serverError, ok, forbidden } from '../../../helpers/http/http-helper'
-import { Authenticate } from '../login/login-controller-protocols'
+
 import { EmailAlreadyInUse } from '../../../erros'
 
 export class SignUpController implements Controller {
