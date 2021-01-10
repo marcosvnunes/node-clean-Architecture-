@@ -1,6 +1,6 @@
 import { AccessDeniedError } from '../../erros'
 import { AuthMiddleware } from './auth-middleware'
-import { forbidden } from '../../helpers/http/http-helper'
+import { forbidden, ok } from '../../helpers/http/http-helper'
 import { LoadAccountByToken, AccountModel } from './auth-middleware-protocols'
 import { HttpRequest } from '../../protocols'
 
@@ -56,5 +56,11 @@ describe('Auth middleware', () => {
       .mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
+  })
+
+  test('should return 200 if loadAccountByToken return an account', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok({ accountId: 'valid_id' }))
   })
 })
