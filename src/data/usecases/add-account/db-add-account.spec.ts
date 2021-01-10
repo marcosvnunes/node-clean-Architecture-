@@ -7,81 +7,81 @@ import {
 } from './db-add-account-protocols'
 import { DbAddAccount } from './db-add-account'
 
-describe('DbAddAccount Usecase', () => {
-  const makeAccountData = (): AddAccountModel => {
-    return {
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    }
-  }
-
-  const makeHasher = (): Hasher => {
-    class HasherStub implements Hasher {
-      async hash (value: string): Promise<string> {
-        return new Promise(resolve => resolve('hashed_password'))
-      }
-    }
-    return new HasherStub()
-  }
-  const makeFakeAccount = (): AccountModel => ({
-    id: 'any_id',
+const makeAccountData = (): AddAccountModel => {
+  return {
+    name: 'any_name',
     email: 'any_email@mail.com',
-    password: 'hashed_password',
-    name: 'any_name'
-  })
+    password: 'any_password'
+  }
+}
 
-  const makeAddAccountRepository = (): AddAccountRepository => {
-    class AddAccountRepositoryStub implements AddAccountRepository {
-      async add (account: AddAccountModel): Promise<AccountModel> {
-        const fakeAccount = {
-          id: 'valid_id',
-          ...account
-        }
-        return new Promise(resolve => resolve(fakeAccount))
+const makeHasher = (): Hasher => {
+  class HasherStub implements Hasher {
+    async hash (value: string): Promise<string> {
+      return new Promise(resolve => resolve('hashed_password'))
+    }
+  }
+  return new HasherStub()
+}
+const makeFakeAccount = (): AccountModel => ({
+  id: 'any_id',
+  email: 'any_email@mail.com',
+  password: 'hashed_password',
+  name: 'any_name'
+})
+
+const makeAddAccountRepository = (): AddAccountRepository => {
+  class AddAccountRepositoryStub implements AddAccountRepository {
+    async add (account: AddAccountModel): Promise<AccountModel> {
+      const fakeAccount = {
+        id: 'valid_id',
+        ...account
       }
-    }
-    return new AddAccountRepositoryStub()
-  }
-
-  const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
-    class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
-      async loadByEmail (email: string): Promise<AccountModel> {
-        return new Promise(resolve => resolve(null))
-      }
-    }
-    return new LoadAccountByEmailRepositoryStub()
-  }
-
-  interface SutTypes {
-    sut: DbAddAccount
-    hasherStub: Hasher
-    addAccountRepositoryStub: AddAccountRepository
-    loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
-  }
-
-  const makeSut = (): SutTypes => {
-    const hasherStub = makeHasher()
-    const addAccountRepositoryStub = makeAddAccountRepository()
-    const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
-    const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub, loadAccountByEmailRepositoryStub)
-    return {
-      sut,
-      hasherStub,
-      addAccountRepositoryStub,
-      loadAccountByEmailRepositoryStub
+      return new Promise(resolve => resolve(fakeAccount))
     }
   }
+  return new AddAccountRepositoryStub()
+}
 
-  const makeFakeAccountDB = (): AddAccountModel => {
-    const fakeAccountDB = Object.assign(
-      {},
-      makeAccountData(),
-      { id: 'valid_id', password: 'hashed_password' }
-    )
-    return fakeAccountDB
+const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
+  class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
+    async loadByEmail (email: string): Promise<AccountModel> {
+      return new Promise(resolve => resolve(null))
+    }
   }
+  return new LoadAccountByEmailRepositoryStub()
+}
 
+interface SutTypes {
+  sut: DbAddAccount
+  hasherStub: Hasher
+  addAccountRepositoryStub: AddAccountRepository
+  loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
+}
+
+const makeSut = (): SutTypes => {
+  const hasherStub = makeHasher()
+  const addAccountRepositoryStub = makeAddAccountRepository()
+  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
+  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub, loadAccountByEmailRepositoryStub)
+  return {
+    sut,
+    hasherStub,
+    addAccountRepositoryStub,
+    loadAccountByEmailRepositoryStub
+  }
+}
+
+const makeFakeAccountDB = (): AddAccountModel => {
+  const fakeAccountDB = Object.assign(
+    {},
+    makeAccountData(),
+    { id: 'valid_id', password: 'hashed_password' }
+  )
+  return fakeAccountDB
+}
+
+describe('DbAddAccount Usecase', () => {
   test('should call Hasher with correct password', async () => {
     const { sut, hasherStub } = makeSut()
     const hashSpy = jest.spyOn(hasherStub, 'hash')
