@@ -1,4 +1,4 @@
 import { HttpRequest, HttpResponse } from './http'
-export interface Middlewares {
+export interface Middleware {
   handle (httpRequest: HttpRequest): Promise<HttpResponse>
 }
