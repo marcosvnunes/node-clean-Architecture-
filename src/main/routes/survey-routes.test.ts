@@ -18,7 +18,7 @@ describe('Login Routes', () => {
     await MongoHelper.disconnect()
   })
   describe('Survey Post ', () => {
-    test('should return 204 on success', async () => {
+    test('should return 403 if accessToken no is provided', async () => {
       await request(app)
         .post('/api/survey')
         .send({
@@ -28,7 +28,7 @@ describe('Login Routes', () => {
             image: 'http://image.com.br'
           }]
         })
-        .expect(204)
+        .expect(403)
     })
   })
 })
