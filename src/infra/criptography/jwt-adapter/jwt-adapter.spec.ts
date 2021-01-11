@@ -33,12 +33,18 @@ describe('Jwt Adapter', () => {
     })
   })
 
-  describe('sign()', () => {
+  describe('verify()', () => {
     test('should call verify with correct values', async () => {
       jest.spyOn(jwt, 'verify')
       const sut = new JwtAdapter('secret')
       await sut.decrypt('any_id')
       expect(jwt.sign).toHaveBeenCalledWith({ id: 'any_id' }, 'secret')
+    })
+
+    test('should return value if verify on successed', async () => {
+      const sut = new JwtAdapter('secret')
+      const accessToken = await sut.decrypt('any_token')
+      expect(accessToken).toBe('any_value')
     })
   })
 })
