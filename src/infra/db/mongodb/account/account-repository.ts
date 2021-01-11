@@ -27,4 +27,13 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
     const accountCollection = await MongoHelper.getCollection('accounts')
     await accountCollection.updateOne({ _id: id }, { $set: { accessToken: token } })
   }
+
+  async loadByToken (token: string): Promise<AccountModel> {
+    const accountCollection = await MongoHelper.getCollection('accounts')
+    const account = await accountCollection.findOne({ accessToken: token })
+    if (!account) {
+      return null
+    }
+    return MongoHelper.map(account)
+  }
 }
