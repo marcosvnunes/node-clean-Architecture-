@@ -111,7 +111,7 @@ describe('Account Mongo Repository', () => {
       expect(account.role).toBe('any_role')
     })
 
-    test('should return null if loadBytoken fails', async () => {
+    test('should return null if loadByToken fails', async () => {
       const sut = makeSut()
       const account = await sut.loadByToken('any_token')
       expect(account).toBeFalsy()
