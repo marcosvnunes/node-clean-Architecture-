@@ -3,7 +3,7 @@ import { MongoHelper } from '../helpers/mongo-helper'
 import { SurveyMongoRepository } from './survey-repository'
 let surveyCollection: Collection
 
-describe('Account Mongo Repository', () => {
+describe('Survey Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
@@ -22,9 +22,12 @@ describe('Account Mongo Repository', () => {
   }
 
   const makeFakeSurvey = (): any => ({
-    name: 'any_name',
-    email: 'any_email@mail.com',
-    password: 'any_password'
+    question: 'question',
+    answers: [{
+      answer: 'answer',
+      image: 'any_image'
+    }],
+    date: new Date()
   })
 
   test('should create survey on add success', async () => {

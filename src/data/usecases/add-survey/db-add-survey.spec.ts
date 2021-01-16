@@ -25,7 +25,7 @@ interface SutTypes {
   addSurveyRepositoryStub: AddSurveyRepository
 }
 
-const makeSut = (): any => {
+const makeSut = (): SutTypes => {
   const addSurveyRepositoryStub = makeAddSurveyStub()
   const sut = new DbAddSurvey(addSurveyRepositoryStub)
   return {
