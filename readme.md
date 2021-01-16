@@ -16,7 +16,7 @@ O objetivo do treinamento é criar uma API com uma arquitetura bem definida e de
 > ## APIs construídas no treinamento
 
 1. [Cadastro](./requirements/signup.md)
-2. [Login](./requirements/login.md)
+2. [Login](./requirements/signin.md)
 3. [Criar enquete](./requirements/add-survey.md)
 4. [Listar enquetes](./requirements/load-surveys.md)
 5. [Responder enquete](./requirements/save-survey-result.md)
