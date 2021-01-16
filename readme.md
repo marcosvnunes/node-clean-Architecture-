@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/rmanguinho/clean-ts-api.svg?branch=master)](https://travis-ci.org/rmanguinho/clean-ts-api)
-[![Coverage Status](https://coveralls.io/repos/github/rmanguinho/clean-ts-api/badge.svg)](https://coveralls.io/github/rmanguinho/clean-ts-api)
+[![Build Status](https://travis-ci.org/marcosvnunes/node-clean-Architecture-.svg?branch=main)](https://travis-ci.org/marcosvnunes/node-clean-Architecture-)
+[![Coverage Status](https://coveralls.io/repos/github/marcosvnunes/node-clean-Architecture-/badge.svg?branch=main)](https://coveralls.io/github/marcosvnunes/node-clean-Architecture-?branch=main)
 [![Known Vulnerabilities](https://snyk.io/test/github/rmanguinho/clean-ts-api/badge.svg)](https://snyk.io/test/github/rmanguinho/clean-ts-api)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
