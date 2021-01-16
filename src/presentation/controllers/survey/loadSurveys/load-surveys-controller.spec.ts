@@ -2,6 +2,7 @@ import { SurveyModel } from '../../../../domain/models/survey'
 import { LoadSurvey } from '../../../../domain/usercases/load-surveys'
 import { LoadSurveysController } from './load-surveys.controller'
 import mockdate from 'mockdate'
+import { serverError } from '../../../helpers/http/http-helper'
 
 const makeFakeSurveys = (): SurveyModel => ({
   id: 'any_id',
@@ -48,5 +49,12 @@ describe('LoadSurveys Controller', () => {
     const spyLoad = jest.spyOn(loadSurveysStub, 'load')
     await sut.handle({})
     expect(spyLoad).toHaveBeenCalledWith()
+  })
+
+  test('should return 500 if LoadSurvey throws', async () => {
+    const { sut, loadSurveysStub } = makeSut()
+    jest.spyOn(loadSurveysStub, 'load').mockImplementationOnce(() => { throw new Error() })
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
