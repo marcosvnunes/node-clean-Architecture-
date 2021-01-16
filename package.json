@@ -25,6 +25,7 @@
     "husky": "^4.3.0",
     "jest": "^26.6.3",
     "lint-staged": "^10.5.2",
+    "mockdate": "^3.0.2",
     "rimraf": "^3.0.2",
     "supertest": "^6.0.1",
     "ts-jest": "^26.4.4",
@@ -45,7 +46,6 @@
     "test:staged": "yarn test -- --findRelatedTests",
     "test:ci": "yarn test --coverage --runInBand",
     "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info"
-
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
