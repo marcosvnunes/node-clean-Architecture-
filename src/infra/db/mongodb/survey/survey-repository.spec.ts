@@ -49,7 +49,16 @@ describe('Survey Mongo Repository', () => {
   })
 
   describe('loadAll', () => {
-    test('should load all surveys on loadAll success', async () => {
+    test('should return all surveys on loadAll success', async () => {
+      await surveyCollection.insertMany([makeFakeSurvey(), makeFakeSurvey2()])
+      const sut = makeSut()
+      const surveys = await sut.loadAll()
+      expect(surveys.length).toBe(2)
+      expect(surveys[0].question).toBe('any_question')
+      expect(surveys[1].question).toBe('other_question')
+    })
+
+    test('should returns an empty array if loadAll finds no surveys ', async () => {
       await surveyCollection.insertMany([makeFakeSurvey(), makeFakeSurvey2()])
       const sut = makeSut()
       const surveys = await sut.loadAll()
