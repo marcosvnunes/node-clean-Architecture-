@@ -5,7 +5,7 @@ import { Controller } from '../../../../presentation/protocols'
 import { makeDbAddSurvey } from '../../usercases/addsurvey/DbAddSurvey-factory'
 import { makeValidationComposite } from './survey-validation-factory'
 
-export const makeSurveyController = (): Controller => {
+export const makeAddSurveyController = (): Controller => {
   const logMongoRepository = new LogMongoRepository()
   const surveyController = new SurveyController(makeValidationComposite(), makeDbAddSurvey())
   return new LogErrorControllerDecorator(surveyController, logMongoRepository)
