@@ -23,7 +23,7 @@ describe('Survey Routes', () => {
   afterAll(async () => {
     await MongoHelper.disconnect()
   })
-  describe('Survey Post ', () => {
+  describe('Survey add ', () => {
     test('should return 403 if accessToken no is provided', async () => {
       await request(app)
         .post('/api/survey')
@@ -58,6 +58,14 @@ describe('Survey Routes', () => {
           }]
         })
         .expect(204)
+    })
+  })
+  describe('Surveys loadAll ', () => {
+    test('should return 403 if accessToken no is provided', async () => {
+      await request(app)
+        .get('/api/surveys')
+        .send()
+        .expect(403)
     })
   })
 })
