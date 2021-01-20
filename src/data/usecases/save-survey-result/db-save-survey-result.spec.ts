@@ -24,15 +24,15 @@ const makeAddSurveyStub = (): SaveSurveyResultRepository => {
 
 interface SutTypes {
   sut: DbSaveSurveyResult
-  addSurveyRepositoryStub: SaveSurveyResultRepository
+  saveSurveyResultRepository: SaveSurveyResultRepository
 }
 
 const makeSut = (): SutTypes => {
-  const addSurveyRepositoryStub = makeAddSurveyStub()
-  const sut = new DbSaveSurveyResult(addSurveyRepositoryStub)
+  const saveSurveyResultRepository = makeAddSurveyStub()
+  const sut = new DbSaveSurveyResult(saveSurveyResultRepository)
   return {
     sut,
-    addSurveyRepositoryStub
+    saveSurveyResultRepository
   }
 }
 
@@ -44,8 +44,8 @@ describe('DbAddSurvey UseCase', () => {
     mockdate.reset()
   })
   test('should call saveSurveyResultRepository with correct values', async () => {
-    const { sut, addSurveyRepositoryStub } = makeSut()
-    const saveSpy = jest.spyOn(addSurveyRepositoryStub, 'save')
+    const { sut, saveSurveyResultRepository } = makeSut()
+    const saveSpy = jest.spyOn(saveSurveyResultRepository, 'save')
     await sut.save(makeFakeurveyResult())
     expect(saveSpy).toHaveBeenCalledWith(makeFakeurveyResult())
   })
@@ -54,5 +54,13 @@ describe('DbAddSurvey UseCase', () => {
     const { sut } = makeSut()
     const surveys = await sut.save(makeFakeurveyResult())
     expect(surveys).toEqual(makeSurveyResultData())
+  })
+
+  test('should throw if saveSurveyResultRepository throws', async () => {
+    const { sut, saveSurveyResultRepository } = makeSut()
+    jest.spyOn(saveSurveyResultRepository, 'save')
+      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const promise = sut.save(makeFakeurveyResult())
+    await expect(promise).rejects.toThrow()
   })
 })
