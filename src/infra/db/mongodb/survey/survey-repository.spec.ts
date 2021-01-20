@@ -67,4 +67,14 @@ describe('Survey Mongo Repository', () => {
       expect(surveys[1].question).toBe('other_question')
     })
   })
+
+  describe('loadById', () => {
+    test('should return a survey on loadById success', async () => {
+      const res = await surveyCollection.insertOne(makeFakeSurvey())
+      const sut = makeSut()
+      const survey = await sut.loadById(res.ops[0]._id)
+      expect(survey).toBeTruthy()
+      expect(survey.id).toBeTruthy()
+    })
+  })
 })
