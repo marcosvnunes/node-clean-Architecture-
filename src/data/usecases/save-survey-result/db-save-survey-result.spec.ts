@@ -49,4 +49,10 @@ describe('DbAddSurvey UseCase', () => {
     await sut.save(makeFakeurveyResult())
     expect(saveSpy).toHaveBeenCalledWith(makeFakeurveyResult())
   })
+
+  test('should return a surveyResult on success', async () => {
+    const { sut } = makeSut()
+    const surveys = await sut.save(makeFakeurveyResult())
+    expect(surveys).toEqual(makeSurveyResultData())
+  })
 })
