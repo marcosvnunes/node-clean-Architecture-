@@ -4,6 +4,8 @@ import { LoadSurveyById } from '../../../../domain/usercases/load-survey-by-id'
 import { MongoHelper } from '../../../../infra/db/mongodb/helpers/mongo-helper'
 import { HttpRequest } from '../../../protocols'
 import { SurveyResultController } from './save-survey-result'
+import { forbidden } from '../../../helpers/http/http-helper'
+import { InvalidParamError } from '../../../erros'
 let surveyCollection: Collection
 
 const makeSurveyData = (): SurveyModel => (
@@ -67,6 +69,13 @@ describe('Survey Mongo Repository', () => {
       const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById')
       await sut.handle(makeFakeRequest())
       expect(loadByIdSpy).toHaveBeenCalledWith('survey_id')
+    })
+
+    test('should return 403 if loadSurveyById fails', async () => {
+      const { sut, loadSurveyByIdStub } = makeSut()
+      jest.spyOn(loadSurveyByIdStub, 'loadById').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+      const survey = await sut.handle(makeFakeRequest())
+      expect(survey).toEqual(forbidden(new InvalidParamError('surveyId')))
     })
   })
 })
