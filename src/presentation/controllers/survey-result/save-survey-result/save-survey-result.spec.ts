@@ -1,13 +1,16 @@
-import { Collection } from 'mongodb'
-import { SurveyModel } from '../../../../domain/models/survey'
-import { LoadSurveyById } from '../../../../domain/usercases/load-survey-by-id'
-import { MongoHelper } from '../../../../infra/db/mongodb/helpers/mongo-helper'
-import { HttpRequest } from '../../../protocols'
+import {
+  HttpRequest,
+  SaveSurveyResult,
+  SaveSurveyResultModel,
+  SurveyResultModel,
+  LoadSurveyById,
+  SurveyModel
+} from './save-survey-result-protocols'
 import { SurveyResultController } from './save-survey-result'
 import { forbidden, serverError } from '../../../helpers/http/http-helper'
 import { InvalidParamError } from '../../../erros'
-import { SaveSurveyResult, SaveSurveyResultModel } from '../../../../domain/usercases/save-survey-result'
-import { SurveyResultModel } from '../../../../domain/models/survey-result'
+import { MongoHelper } from '../../../../infra/db/mongodb/helpers/mongo-helper'
+import { Collection } from 'mongodb'
 import mockdate from 'mockdate'
 let surveyCollection: Collection
 
