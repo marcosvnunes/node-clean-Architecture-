@@ -7,7 +7,7 @@ import {
   SurveyModel
 } from './save-survey-result-protocols'
 import { SurveyResultController } from './save-survey-result'
-import { forbidden, serverError } from '../../../helpers/http/http-helper'
+import { forbidden, ok, serverError } from '../../../helpers/http/http-helper'
 import { InvalidParamError } from '../../../erros'
 import { MongoHelper } from '../../../../infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
@@ -146,6 +146,12 @@ describe('Survey Mongo Repository', () => {
       jest.spyOn(saveSurveyResultStub, 'save').mockImplementationOnce(() => { throw new Error() })
       const httpResponse = await sut.handle(makeFakeRequest())
       expect(httpResponse).toEqual(serverError(new Error()))
+    })
+
+    test('should return 200 on success', async () => {
+      const { sut } = makeSut()
+      const httpResponse = await sut.handle(makeFakeRequest())
+      expect(httpResponse).toEqual(ok(makeSurveyResultData()))
     })
   })
 })
