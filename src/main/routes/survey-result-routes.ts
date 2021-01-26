@@ -4,5 +4,5 @@ import { makeSaveSurveyResultController } from '../factories/controllers/survey-
 import { auth } from '../middlewares/auth'
 
 export default (router: Router): void => {
-  router.put('/survey/:survey_id/results', auth, adaptRoute(makeSaveSurveyResultController()))
+  router.put('/survey/:surveyId/results', auth, adaptRoute(makeSaveSurveyResultController()))
 }
