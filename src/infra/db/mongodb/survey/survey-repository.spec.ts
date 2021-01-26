@@ -54,6 +54,7 @@ describe('Survey Mongo Repository', () => {
       const sut = makeSut()
       const surveys = await sut.loadAll()
       expect(surveys.length).toBe(2)
+      expect(surveys[1].id).toBeTruthy()
       expect(surveys[0].question).toBe('any_question')
       expect(surveys[1].question).toBe('other_question')
     })
@@ -65,6 +66,22 @@ describe('Survey Mongo Repository', () => {
       expect(surveys.length).toBe(2)
       expect(surveys[0].question).toBe('any_question')
       expect(surveys[1].question).toBe('other_question')
+    })
+  })
+
+  describe('loadById', () => {
+    test('should return a survey on loadById success', async () => {
+      const res = await surveyCollection.insertOne(makeFakeSurvey())
+      const sut = makeSut()
+      const survey = await sut.loadById(res.ops[0]._id)
+      expect(survey).toBeTruthy()
+      expect(survey.id).toBeTruthy()
+    })
+
+    test('should return falsy on loadById fails', async () => {
+      const sut = makeSut()
+      const survey = await sut.loadById('any_id_valid')
+      expect(survey).toBeFalsy()
     })
   })
 })

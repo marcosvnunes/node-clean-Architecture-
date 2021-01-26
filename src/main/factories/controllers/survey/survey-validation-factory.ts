@@ -7,6 +7,5 @@ export const makeValidationComposite = (): ValidationComposite => {
   for (const validation of ['question', 'answers']) {
     validations.push(new RequiredFieldValidation(validation))
   }
-
   return new ValidationComposite(validations)
 }

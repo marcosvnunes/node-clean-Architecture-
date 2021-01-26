@@ -1,0 +1,5 @@
+export * from '../../../protocols'
+export * from '../../../../domain/models/survey'
+export * from '../../../../domain/usercases/load-survey-by-id'
+export * from '../../../../domain/usercases/save-survey-result'
+export * from '../../../../domain/models/survey-result'
