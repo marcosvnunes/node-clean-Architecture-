@@ -80,7 +80,7 @@ describe('Survey Mongo Repository', () => {
 
     test('should return falsy on loadById fails', async () => {
       const sut = makeSut()
-      const survey = await sut.loadById('any_id')
+      const survey = await sut.loadById('any_id_valid')
       expect(survey).toBeFalsy()
     })
   })
