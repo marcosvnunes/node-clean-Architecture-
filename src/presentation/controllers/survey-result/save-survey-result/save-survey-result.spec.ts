@@ -12,6 +12,8 @@ import { InvalidParamError } from '../../../erros'
 import { MongoHelper } from '../../../../infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import mockdate from 'mockdate'
+import { throwError } from '../../../../domain/Fakes'
+
 let surveyCollection: Collection
 
 const makeFakeSurvey = (): any => ({
@@ -129,7 +131,7 @@ describe('Survey Mongo Repository', () => {
 
     test('should return 500 if loadSurveyById throws', async () => {
       const { sut, loadSurveyByIdStub } = makeSut()
-      jest.spyOn(loadSurveyByIdStub, 'loadById').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(loadSurveyByIdStub, 'loadById').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(makeFakeRequest())
       expect(httpResponse).toEqual(serverError(new Error()))
     })
@@ -143,7 +145,7 @@ describe('Survey Mongo Repository', () => {
 
     test('should return 500 if loadSurveyById throws', async () => {
       const { sut, saveSurveyResultStub } = makeSut()
-      jest.spyOn(saveSurveyResultStub, 'save').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(saveSurveyResultStub, 'save').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(makeFakeRequest())
       expect(httpResponse).toEqual(serverError(new Error()))
     })

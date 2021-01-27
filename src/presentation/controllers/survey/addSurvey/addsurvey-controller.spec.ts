@@ -3,6 +3,7 @@ import { MissingParamError } from '../../../erros'
 import { badRequest, serverError, noContent } from '../../../helpers/http/http-helper'
 import { AddSurvey, AddSurveyParams, Validation } from './addsurvey-controller-protocols'
 import mockdate from 'mockdate'
+import { throwError } from '../../../../domain/Fakes'
 
 const makeFakeRequest = ({
   body: {
@@ -81,7 +82,7 @@ describe('AddSurvey Controller', () => {
 
   test('should return 500 if addSurvey throws', async () => {
     const { sut, addSurveyStub } = makeSut()
-    jest.spyOn(addSurveyStub, 'add').mockImplementationOnce(() => { throw new Error() })
+    jest.spyOn(addSurveyStub, 'add').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(makeFakeRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
   })

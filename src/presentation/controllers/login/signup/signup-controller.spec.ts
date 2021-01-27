@@ -3,6 +3,7 @@ import { EmailAlreadyInUse, MissingParamError } from '../../../erros'
 import { AccountModel, AddAccount, AddAccountParams, Validation, HttpRequest } from './signup-controller-protocols'
 import { badRequest, serverError, ok, forbidden } from '../../../helpers/http/http-helper'
 import { AuthenticateParams, Authenticate } from '../../../../domain/usercases/authenticate'
+import { throwError } from '../../../../domain/Fakes'
 
 const makeFakeAccount = (): AccountModel => {
   return {
@@ -144,7 +145,7 @@ describe('SingUp Controller', () => {
   test('should return 500 if Authenticate throws', async () => {
     const { sut, authenticateStub } = makeSut()
     const httpRequest = makeFakeHttpRequest()
-    jest.spyOn(authenticateStub, 'auth').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(authenticateStub, 'auth').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
   })
