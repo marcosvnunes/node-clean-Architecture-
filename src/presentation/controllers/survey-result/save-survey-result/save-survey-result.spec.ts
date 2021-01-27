@@ -1,7 +1,7 @@
 import {
   HttpRequest,
   SaveSurveyResult,
-  SaveSurveyResultModel,
+  SaveSurveyResultParams,
   SurveyResultModel,
   LoadSurveyById,
   SurveyModel
@@ -26,7 +26,7 @@ const makeFakeSurvey = (): any => ({
 const makeSurveyData = (): SurveyModel => (
   Object.assign({}, makeFakeSurvey(), { id: 'any_id' })
 )
-const makeFakeSurveyResult = (): SaveSurveyResultModel => ({
+const makeFakeSurveyResult = (): SaveSurveyResultParams => ({
   surveyId: 'any_survey_id',
   accountId: 'any_account_id',
   answer: 'any_answer',
@@ -59,7 +59,7 @@ const makeLoadSurveyById = (): LoadSurveyById => {
 
 const makeSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
-    async save (data: SaveSurveyResultModel): Promise<SurveyResultModel> {
+    async save (data: SaveSurveyResultParams): Promise<SurveyResultModel> {
       return new Promise(resolve => resolve(makeSurveyResultData()))
     }
   }

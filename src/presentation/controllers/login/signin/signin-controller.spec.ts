@@ -2,11 +2,11 @@ import { HttpRequest, Authenticate, Validation } from './signin-controller-proto
 import { SignInController } from './signin-controller'
 import { MissingParamError } from '../../../erros'
 import { badRequest, ok, serverError, unauthorized } from '../../../helpers/http/http-helper'
-import { AuthenticateModel } from '../../../../domain/usercases/authenticate'
+import { AuthenticateParams } from '../../../../domain/usercases/authenticate'
 
 const makeAuthenticate = (): Authenticate => {
   class AuthenticateStub implements Authenticate {
-    async auth (authenticate: AuthenticateModel): Promise<string> {
+    async auth (authenticate: AuthenticateParams): Promise<string> {
       return new Promise(resolve => resolve('any_token'))
     }
   }

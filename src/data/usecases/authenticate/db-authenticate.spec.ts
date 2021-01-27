@@ -1,6 +1,6 @@
 import {
   AccountModel,
-  AuthenticateModel,
+  AuthenticateParams,
   LoadAccountByEmailRepository,
   HashComparer,
   Encrypter,
@@ -15,7 +15,7 @@ const makeFakeAccount = (): AccountModel => ({
   name: 'any_name'
 })
 
-const makeFakeAuthenticate = (): AuthenticateModel => ({
+const makeFakeAuthenticate = (): AuthenticateParams => ({
   email: 'any_email@mail.com',
   password: 'any_password'
 })
