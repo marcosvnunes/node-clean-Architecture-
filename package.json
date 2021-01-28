@@ -37,7 +37,7 @@
     "build": "rimraf dist && tsc",
     "dev": "tsc -w",
     "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
-    "up": "yarn build && docker-compose up -d",
+    "up": "yarn build && docker-compose up ",
     "down": "docker-compose down",
     "test": "jest --passWithNoTests --noStackTrace ",
     "test:verbose": "jest --passWithNoTests --runInBand",
