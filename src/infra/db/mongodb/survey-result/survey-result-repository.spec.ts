@@ -1,4 +1,5 @@
 import { Collection } from 'mongodb'
+import { mockAddAccountParams, mockSurveyModel } from '../../../../domain/Fakes'
 import { AccountModel } from '../../../../domain/models/account'
 import { SurveyModel } from '../../../../domain/models/survey'
 import { MongoHelper } from '../helpers/mongo-helper'
@@ -13,26 +14,12 @@ const makeSut = (): SurveyResultMongoRepository => {
 }
 
 const makeSurvey = async (): Promise<SurveyModel> => {
-  const res = await surveyCollection.insertOne({
-    question: 'any_question',
-    answers: [{
-      answer: 'any_answer',
-      image: 'any_image'
-    }, {
-      answer: 'other_answer',
-      image: 'other_image'
-    }],
-    date: new Date()
-  })
+  const res = await surveyCollection.insertOne(mockSurveyModel())
   return MongoHelper.map(res.ops[0])
 }
 
 const makeAccount = async (): Promise<AccountModel> => {
-  const res = await surveyCollection.insertOne({
-    name: 'any_name',
-    email: 'any_email@mail.com',
-    password: 'any_password'
-  })
+  const res = await surveyCollection.insertOne(mockAddAccountParams())
   return MongoHelper.map(res.ops[0])
 }
 

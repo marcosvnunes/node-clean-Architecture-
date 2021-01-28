@@ -1,10 +1,7 @@
 import {
   HttpRequest,
   SaveSurveyResult,
-  SaveSurveyResultModel,
-  SurveyResultModel,
-  LoadSurveyById,
-  SurveyModel
+  LoadSurveyById
 } from './save-survey-result-protocols'
 import { SurveyResultController } from './save-survey-result'
 import { forbidden, ok, serverError } from '../../../helpers/http/http-helper'
@@ -12,30 +9,10 @@ import { InvalidParamError } from '../../../erros'
 import { MongoHelper } from '../../../../infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import mockdate from 'mockdate'
+import { mockSurveyResultModel, mockSurveyResultParams, throwError } from '../../../../domain/Fakes'
+import { mockLoadSurveyById, mockSaveSurveyResult } from '../../../mock'
+
 let surveyCollection: Collection
-
-const makeFakeSurvey = (): any => ({
-  question: 'any_question',
-  answers: [{
-    answer: 'any_answer',
-    image: 'any_image'
-  }],
-  date: new Date()
-})
-
-const makeSurveyData = (): SurveyModel => (
-  Object.assign({}, makeFakeSurvey(), { id: 'any_id' })
-)
-const makeFakeSurveyResult = (): SaveSurveyResultModel => ({
-  surveyId: 'any_survey_id',
-  accountId: 'any_account_id',
-  answer: 'any_answer',
-  date: new Date()
-})
-
-const makeSurveyResultData = (): SurveyResultModel => (
-  Object.assign({}, makeFakeSurveyResult(), { id: 'any_id' })
-)
 
 const makeFakeRequest = (): HttpRequest => ({
   params: {
@@ -47,33 +24,14 @@ const makeFakeRequest = (): HttpRequest => ({
   accountId: 'any_account_id'
 })
 
-const makeLoadSurveyById = (): LoadSurveyById => {
-  class LoadSurveyByIdStub implements LoadSurveyById {
-    async loadById (id: string): Promise<SurveyModel> {
-      return new Promise(resolve => resolve(makeSurveyData()))
-    }
-  }
-
-  return new LoadSurveyByIdStub()
-}
-
-const makeSaveSurveyResult = (): SaveSurveyResult => {
-  class SaveSurveyResultStub implements SaveSurveyResult {
-    async save (data: SaveSurveyResultModel): Promise<SurveyResultModel> {
-      return new Promise(resolve => resolve(makeSurveyResultData()))
-    }
-  }
-
-  return new SaveSurveyResultStub()
-}
 type SutTypes = {
   sut: SurveyResultController
   loadSurveyByIdStub: LoadSurveyById
   saveSurveyResultStub: SaveSurveyResult
 }
 const makeSut = (): SutTypes => {
-  const loadSurveyByIdStub = makeLoadSurveyById()
-  const saveSurveyResultStub = makeSaveSurveyResult()
+  const loadSurveyByIdStub = mockLoadSurveyById()
+  const saveSurveyResultStub = mockSaveSurveyResult()
 
   const sut = new SurveyResultController(loadSurveyByIdStub, saveSurveyResultStub)
   return {
@@ -129,7 +87,7 @@ describe('Survey Mongo Repository', () => {
 
     test('should return 500 if loadSurveyById throws', async () => {
       const { sut, loadSurveyByIdStub } = makeSut()
-      jest.spyOn(loadSurveyByIdStub, 'loadById').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(loadSurveyByIdStub, 'loadById').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(makeFakeRequest())
       expect(httpResponse).toEqual(serverError(new Error()))
     })
@@ -138,12 +96,12 @@ describe('Survey Mongo Repository', () => {
       const { sut, saveSurveyResultStub } = makeSut()
       const saveSpy = jest.spyOn(saveSurveyResultStub, 'save')
       await sut.handle(makeFakeRequest())
-      expect(saveSpy).toHaveBeenCalledWith(makeFakeSurveyResult())
+      expect(saveSpy).toHaveBeenCalledWith(mockSurveyResultParams())
     })
 
     test('should return 500 if loadSurveyById throws', async () => {
       const { sut, saveSurveyResultStub } = makeSut()
-      jest.spyOn(saveSurveyResultStub, 'save').mockImplementationOnce(() => { throw new Error() })
+      jest.spyOn(saveSurveyResultStub, 'save').mockImplementationOnce(throwError)
       const httpResponse = await sut.handle(makeFakeRequest())
       expect(httpResponse).toEqual(serverError(new Error()))
     })
@@ -151,7 +109,7 @@ describe('Survey Mongo Repository', () => {
     test('should return 200 on success', async () => {
       const { sut } = makeSut()
       const httpResponse = await sut.handle(makeFakeRequest())
-      expect(httpResponse).toEqual(ok(makeSurveyResultData()))
+      expect(httpResponse).toEqual(ok(mockSurveyResultModel()))
     })
   })
 })
