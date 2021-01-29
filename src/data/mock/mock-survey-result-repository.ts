@@ -6,7 +6,7 @@ import { SaveSurveyResultRepository } from '../protocols/db/survey/save-survey-r
 export const mockSaveSurveyResultRepository = (): SaveSurveyResultRepository => {
   class SaveSurveyResultRepositoryStub implements SaveSurveyResultRepository {
     async save (SurveyData: SaveSurveyResultParams): Promise<SurveyResultModel> {
-      return new Promise(resolve => resolve(mockSurveyResultModel()))
+      return Promise.resolve(mockSurveyResultModel())
     }
   }
   return new SaveSurveyResultRepositoryStub()

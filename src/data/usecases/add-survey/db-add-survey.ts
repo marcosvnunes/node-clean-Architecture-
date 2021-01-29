@@ -8,6 +8,6 @@ export class DbAddSurvey implements AddSurvey {
 
   async add (data: AddSurveyParams): Promise<void> {
     await this.addSurveyRepository.add(data)
-    return new Promise(resolve => resolve())
+    return Promise.resolve()
   }
 }

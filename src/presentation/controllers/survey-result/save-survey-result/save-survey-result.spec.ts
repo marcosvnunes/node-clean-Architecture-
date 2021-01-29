@@ -67,7 +67,7 @@ describe('Survey Mongo Repository', () => {
 
     test('should return 403 if loadSurveyById fails', async () => {
       const { sut, loadSurveyByIdStub } = makeSut()
-      jest.spyOn(loadSurveyByIdStub, 'loadById').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+      jest.spyOn(loadSurveyByIdStub, 'loadById').mockReturnValueOnce(Promise.resolve(null))
       const survey = await sut.handle(makeFakeRequest())
       expect(survey).toEqual(forbidden(new InvalidParamError('surveyId')))
     })

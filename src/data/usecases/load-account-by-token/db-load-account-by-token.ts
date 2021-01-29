@@ -17,6 +17,6 @@ export class DbLoadAccountByToken implements LoadAccountByToken {
         return account
       }
     }
-    return new Promise(resolve => resolve(null))
+    return Promise.resolve(null)
   }
 }
