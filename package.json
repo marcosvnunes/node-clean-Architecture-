@@ -48,7 +48,7 @@
     "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info"
   },
   "dependencies": {
-    "@types/bcrypt": "^3.0.0",
+    "@types/bcrypt": "^3.0.1",
     "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
